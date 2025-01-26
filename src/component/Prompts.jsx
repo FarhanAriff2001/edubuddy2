@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { FiSend } from "react-icons/fi";
 
-const PromptInput = ({ onSubmit }) => {
+const PromptInput = React.forwardRef(({ onSubmit}, ref) => {
   const [message, setMessage] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (message.trim()) {
-      onSubmit(message); // Send the message to the parent handler
+      onSubmit(e, message); // Send the message to the parent handler
       setMessage(""); // Clear the input
     }
   };
@@ -25,6 +25,7 @@ const PromptInput = ({ onSubmit }) => {
 
       <form
         onSubmit={handleSubmit}
+        ref={ref}
         className="bg-white border-gray-200 p-4 flex items-center space-x-4"
       >
         <div className="relative w-[60vw]">
@@ -42,13 +43,13 @@ const PromptInput = ({ onSubmit }) => {
             className="absolute right-2 transform -translate-y-1/2 bg-gray-50 text-black rounded-lg px-2 flex items-center justify-center"
             style={{ top: '45%' }}
             title="Send message"
-            >
+          >
             <FiSend className="w-5 h-5" />
           </button>
         </div>
       </form>
     </div>
   );
-};
+});
 
 export default PromptInput;

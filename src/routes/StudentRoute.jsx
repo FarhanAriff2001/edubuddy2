@@ -16,7 +16,7 @@ const StudentRoute = {
               element: <Dashboard />
             },
             {
-              path: '/chat',
+              path: '/dashboard/chats/:id',
               element: <Chat />
             }
           ]

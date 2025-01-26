@@ -2,11 +2,24 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
+import { useQuery } from "@tanstack/react-query";
 
-const Sidebar = ({setIsDashboardVisibleProps = false}) => {
+
+const Sidebar = ({ setIsDashboardVisibleProps = false }) => {
   const [isOpen, setIsOpen] = useState(true); // For toggling the sidebar
   const [isMobileOpen, setIsMobileOpen] = useState(false); // For mobile devices
   const [isDashboardVisible, setIsDashboardVisible] = useState(true);
+
+  const { isPending, error, data } = useQuery({
+    queryKey: ["userChats"],
+    queryFn: () =>
+      fetch(`${import.meta.env.VITE_API_URL}/api/chats/userchats`, {
+        credentials: "include",
+        body: JSON.stringify({
+          userId: "user_2rzHVJFMuvGHRd07bO8oT0FzX4o" | undefined
+        }),
+      }).then((res) => res.json()),
+  });
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -15,7 +28,7 @@ const Sidebar = ({setIsDashboardVisibleProps = false}) => {
   const toggleMobileSidebar = () => {
     setIsMobileOpen(!isMobileOpen);
   };
-  
+
   const handleDashboardClick = () => {
     console.log("Handle dashboard");
     setIsDashboardVisible(!isDashboardVisible); // Toggle visibility
@@ -40,9 +53,8 @@ const Sidebar = ({setIsDashboardVisibleProps = false}) => {
             <FaBars />
           </button>
           <span
-            className={`font-bold text-lg transition-opacity duration-200 ${
-              isOpen ? "opacity-100" : "opacity-0"
-            }`}
+            className={`font-bold text-lg transition-opacity duration-200 ${isOpen ? "opacity-100" : "opacity-0"
+              }`}
           >
           </span>
         </div>
@@ -50,28 +62,45 @@ const Sidebar = ({setIsDashboardVisibleProps = false}) => {
         {/* Menu Items */}
         <ul className="flex-1 mt-4">
           <li className="mb-3">
-              <button
-                onClick={handleDashboardClick} // Trigger the sliding animation
-                className={`px-4 py-2 hover:bg-blue-100 flex items-center gap-2`}
-              >
-                <MdDashboard className="text-xl flex-shrink-0" />
-                <span
-                  className={`transition-opacity duration-200 ${
-                    isOpen ? "opacity-100" : "opacity-0"
+            <button
+              onClick={handleDashboardClick} // Trigger the sliding animation
+              className={`px-4 py-2 hover:bg-blue-100 flex items-center gap-2`}
+            >
+              <MdDashboard className="text-xl flex-shrink-0" />
+              <span
+                className={`transition-opacity duration-200 ${isOpen ? "opacity-100" : "opacity-0"
                   }`}
-                >
-                  Workspace
-                </span>
-              </button>
-            </li>
+              >
+                Workspace
+              </span>
+            </button>
+          </li>
           <hr></hr>
         </ul>
 
+        {/* Recent Chats Sections */}
+        <div className="chatList">
+          <Link to="/dashboard">Create a new Chat</Link>
+          <hr />
+          <span className="title">Recent Chats</span>
+          <div className="list">
+            {isPending
+              ? "Loading..."
+              : error
+                ? "Something went wrong!"
+                : data?.map((chat) => (
+                  <Link to={`/dashboard/chats/${chat._id}`} key={chat._id}>
+                    {chat.title}
+                  </Link>
+                ))}
+          </div>
+          <hr />
+        </div>
+
         {/* Footer Section */}
         <div
-          className={`p-4 text-sm text-gray-500 transition-opacity duration-200 ${
-            isOpen ? "opacity-100" : "opacity-0"
-          }`}
+          className={`p-4 text-sm text-gray-500 transition-opacity duration-200 ${isOpen ? "opacity-100" : "opacity-0"
+            }`}
         >
           © 2025 BordUp™
         </div>
