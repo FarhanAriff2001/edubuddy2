@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
-import { MdDashboard } from "react-icons/md";
+import { MdDashboard, MdAdd } from "react-icons/md";
 import { useQuery } from "@tanstack/react-query";
+import { IoAddSharp } from "react-icons/io5";
 
 
-const Sidebar = ({ setIsDashboardVisibleProps = false }) => {
+const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true); // For toggling the sidebar
   const [isMobileOpen, setIsMobileOpen] = useState(false); // For mobile devices
-  const [isDashboardVisible, setIsDashboardVisible] = useState(true);
 
   const { isPending, error, data } = useQuery({
     queryKey: ["userChats"],
@@ -27,13 +27,6 @@ const Sidebar = ({ setIsDashboardVisibleProps = false }) => {
 
   const toggleMobileSidebar = () => {
     setIsMobileOpen(!isMobileOpen);
-  };
-
-  const handleDashboardClick = () => {
-    console.log("Handle dashboard");
-    setIsDashboardVisible(!isDashboardVisible); // Toggle visibility
-    setIsDashboardVisibleProps(isDashboardVisible)
-    console.log("isDashboard " + isDashboardVisible);
   };
 
   return (
@@ -61,28 +54,32 @@ const Sidebar = ({ setIsDashboardVisibleProps = false }) => {
 
         {/* Menu Items */}
         <ul className="flex-1 mt-4">
-          <li className="mb-3">
+          <Link className="mb-3" to="/dashboard">
             <button
-              onClick={handleDashboardClick} // Trigger the sliding animation
-              className={`px-4 py-2 hover:bg-blue-100 flex items-center gap-2`}
+              className="px-4 py-2 hover:bg-blue-100 flex items-center gap-2"
+            >
+              <MdAdd className="text-xl flex-shrink-0" />
+              <span
+                className={`overflow-hidden whitespace-nowrap transition-all duration-200 ease-in-out ${isOpen ? "max-w-full opacity-100" : "max-w-0 opacity-0"}`}
+              >
+                New Chat
+              </span>
+            </button>
+          </Link>
+          <Link className="mb-3" to="/workspace">
+            <button
+              className="px-4 py-2 hover:bg-blue-100 flex items-center gap-2"
             >
               <MdDashboard className="text-xl flex-shrink-0" />
               <span
-                className={`transition-opacity duration-200 ${isOpen ? "opacity-100" : "opacity-0"
-                  }`}
+                className={`overflow-hidden whitespace-nowrap transition-all duration-200 ease-in-out ${isOpen ? "max-w-full opacity-100" : "max-w-0 opacity-0"}`}
               >
                 Workspace
               </span>
             </button>
-          </li>
-          <hr></hr>
-        </ul>
-
-        {/* Recent Chats Sections */}
-        <div className="chatList">
-          <Link to="/dashboard">Create a new Chat</Link>
+          </Link>
           <hr />
-          <span className="title">Recent Chats</span>
+          <div className="px-4 mt-3 font-semibold text-sm">Recent Chats</div>
           <div className="list">
             {isPending
               ? "Loading..."
@@ -94,6 +91,13 @@ const Sidebar = ({ setIsDashboardVisibleProps = false }) => {
                   </Link>
                 ))}
           </div>
+        </ul>
+
+
+        {/* Recent Chats Sections */}
+        <div className="chatList">
+          <hr />
+
           <hr />
         </div>
 
@@ -102,7 +106,6 @@ const Sidebar = ({ setIsDashboardVisibleProps = false }) => {
           className={`p-4 text-sm text-gray-500 transition-opacity duration-200 ${isOpen ? "opacity-100" : "opacity-0"
             }`}
         >
-          © 2025 BordUp™
         </div>
       </div>
 

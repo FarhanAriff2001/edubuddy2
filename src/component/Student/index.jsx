@@ -15,14 +15,12 @@ const Layout = () => {
   
   return (
     <div className="flex">
-      <Sidebar setIsDashboardVisibleProps={setIsDashboardVisible} />
+      <Sidebar />
       <div className="flex-1 flex flex-col">
         <Header selectedModel={selectedModel} setSelectedModel={setSelectedModel} />
         <main className="p-6 bg-gray-50 flex-1">
           <Outlet context={{ selectedModel, setSelectedModel }} />
-        </main>
-  
-        <Workspace isVisible={isDashboardVisible} closeDashboard={closeDashboard} />
+        </main>  
       </div>
     </div>
   )

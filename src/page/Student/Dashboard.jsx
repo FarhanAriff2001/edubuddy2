@@ -46,14 +46,14 @@ const Dashboard = () => {
         {/* Your other content here */}
       </div>
 
-      <div className="flex justify-center">
+      {/* <div className="flex justify-center">
         <div className="grid grid-rows-2 grid-cols-2 gap-4">
           <div className="bg-gray-200 p-4">Top Left Box</div>
           <div className="bg-gray-200 p-4">Top Right Box</div>
           <div className="bg-gray-200 p-4">Bottom Left Box</div>
           <div className="bg-gray-200 p-4">Bottom Right Box</div>
         </div>
-      </div>
+      </div> */}
 
       <div className="flex justify-center mt-10">
         <h1 className='font-bold text-lg'>What I can help you with?</h1>

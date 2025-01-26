@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, Fragment } from "react";
 // import { IKImage } from "imagekitio-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import PromptInput from '../../component/Prompts';
@@ -143,49 +143,55 @@ const ChatPage = ({ isPending, error, data }) => {
 
     return (
         <>
-            {/* ADD NEW CHAT */}
-            <div className="wrapper">
-                <div className="chat">
-                    {data?.history?.map((message, i) => (
-                        <>
-                            {message.img && (
-                                <IKImage
-                                    urlEndpoint={import.meta.env.VITE_IMAGE_KIT_ENDPOINT}
-                                    path={message.img}
-                                    height="300"
-                                    width="400"
-                                    transformation={[{ height: 300, width: 400 }]}
-                                    loading="lazy"
-                                    lqip={{ active: true, quality: 20 }}
-                                />
-                            )}
-                            <div
-                                className={
-                                    message.role === "user" ? "message user" : "message"
-                                }
-                                key={i}
-                            >
-                                <ChatResponse answer={message.parts[0].text} />
-                            </div>
-                        </>
-                    ))}
-                </div>
+          {/* ADD NEW CHAT */}
+          <div className="wrapper min-h-screen flex flex-col">
+            {/* Chat Section */}
+            <div className="chat flex-1 overflow-y-auto">
+              {data?.history?.map((message, i) => (
+                <React.Fragment key={i}>
+                  {message.img && (
+                    <IKImage
+                      urlEndpoint={import.meta.env.VITE_IMAGE_KIT_ENDPOINT}
+                      path={message.img}
+                      height="300"
+                      width="400"
+                      transformation={[{ height: 300, width: 400 }]}
+                      loading="lazy"
+                      lqip={{ active: true, quality: 20 }}
+                    />
+                  )}
+                  <div
+                    className={
+                      message.role === "user" ? "message user" : "message"
+                    }
+                  >
+                    <ChatResponse answer={message.parts[0].text} />
+                  </div>
+                </React.Fragment>
+              ))}
             </div>
+      
+            {/* QA Section */}
             <div className="qa">
-                {question && <div className="message user">{question}</div>}
-                {answer && (
-                    <div className="message">
-                        <ChatResponse answer={answer}/>
-                    </div>
-                )}
+              {question && <div className="message user">{question}</div>}
+              {answer && (
+                <div className="message">
+                  <ChatResponse answer={answer} />
+                </div>
+              )}
             </div>
-            
-            <div className="flex justify-center">
-                <PromptInput onSubmit={handleSubmit} ref={formRef} />
+      
+            {/* Prompt Input (Bottom-fixed) */}
+            <div className="flex justify-center sticky bottom-0 bg-white p-4 shadow-md">
+              <PromptInput onSubmit={handleSubmit} ref={formRef} />
             </div>
-            <div className="endChat" ref={endRef}></div>
+      
+            {/* End Chat Section */}
+            <div ref={endRef}></div>
+          </div>
         </>
-    );
+      );
+      
 };
 
 export default ChatPage;

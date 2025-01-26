@@ -25,22 +25,26 @@ const Chat = () => {
     
     return (
         <div className="flex flex-col h-[80vh]"> {/* Full screen height */}
-            <div className="flex-1"> {/* This will take up remaining space */}
-            {isPending
+            <div className="flex-1 flex items-center justify-center"> {/* Center content */}
+                {isPending
                 ? "Loading..."
                 : error
-                ? "Something went wrong!" 
-                : <ChatPage
+                ? "Something went wrong!"
+                : (
+                    <ChatPage
                     isPending={isPending}
                     error={error}
-                    data={data} />
-            }
+                    data={data}
+                    />
+                )
+                }
             </div>
             {/* Add some margin to the bottom of the PromptInput */}
             {/* <div className="flex justify-center"> 
                 <PromptInput onSubmit={handleSubmit} />
             </div> */}
         </div>
+
     )
 }
 
