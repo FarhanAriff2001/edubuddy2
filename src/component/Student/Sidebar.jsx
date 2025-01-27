@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
-import { MdDashboard, MdAdd } from "react-icons/md";
+import { MdDashboard, MdAdd, MdOutlineSearch } from "react-icons/md";
 import { useQuery } from "@tanstack/react-query";
 import { IoAddSharp } from "react-icons/io5";
-
+import './sidebar.css'
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true); // For toggling the sidebar
@@ -13,11 +13,10 @@ const Sidebar = () => {
   const { isPending, error, data } = useQuery({
     queryKey: ["userChats"],
     queryFn: () =>
-      fetch(`${import.meta.env.VITE_API_URL}/api/chats/userchats`, {
-        credentials: "include",
-        body: JSON.stringify({
-          userId: "user_2rzHVJFMuvGHRd07bO8oT0FzX4o" | undefined
-        }),
+      fetch(`${import.meta.env.VITE_API_URL}/api/chats/userchats?userId=user_2rzHVJFMuvGHRd07bO8oT0FzX4o`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
       }).then((res) => res.json()),
   });
 
@@ -78,28 +77,42 @@ const Sidebar = () => {
               </span>
             </button>
           </Link>
+          <button
+            className="px-4 py-2 hover:bg-blue-100 flex items-center gap-2"
+          >
+            <MdOutlineSearch className="text-xl flex-shrink-0" />
+            <span
+              className={`overflow-hidden whitespace-nowrap transition-all duration-200 ease-in-out ${isOpen ? "max-w-full opacity-100" : "max-w-0 opacity-0"}`}
+            >
+              Search
+            </span>
+          </button>
           <hr />
-          <div className="px-4 mt-3 font-semibold text-sm">Recent Chats</div>
-          <div className="list">
-            {isPending
-              ? "Loading..."
-              : error
-                ? "Something went wrong!"
-                : data?.map((chat) => (
-                  <Link to={`/dashboard/chats/${chat._id}`} key={chat._id}>
-                    {chat.title}
-                  </Link>
-                ))}
+          <div
+            className={`overflow-hidden whitespace-nowrap transition-all duration-200 ease-in-out ${isOpen ? "max-w-full opacity-100" : "max-w-0 opacity-0"}`}
+          >
+            <div className="px-4 mt-3 font-semibold">Recent Chats</div>
+            <div className="list">
+              {isPending
+                ? "Loading..."
+                : error
+                  ? "Something went wrong!"
+                  : data?.map((chat) => (
+                    <Link to={`/chats/${chat._id}`} key={chat._id}>
+                      {chat.title}
+                    </Link>
+                  ))}
+            </div>
           </div>
         </ul>
 
 
         {/* Recent Chats Sections */}
-        <div className="chatList">
+        {/* <div className="chatList">
           <hr />
 
           <hr />
-        </div>
+        </div> */}
 
         {/* Footer Section */}
         <div
