@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { IoAddSharp } from "react-icons/io5";
 
 
-const Sidebar = () => {
+const Sidebar = ({passIsOpen }) => {
   const [isOpen, setIsOpen] = useState(true); // For toggling the sidebar
   const [isMobileOpen, setIsMobileOpen] = useState(false); // For mobile devices
 
@@ -23,6 +23,8 @@ const Sidebar = () => {
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
+    // setGlobalIsOpen(!isOpen); // Pass updated state to parent component if provided
+    passIsOpen(!isOpen)
   };
 
   const toggleMobileSidebar = () => {
@@ -35,7 +37,7 @@ const Sidebar = () => {
       <div
         className={`h-screen bg-slate-100 border-r transition-all duration-300
         ${isOpen ? "w-64" : "w-14"}
-        hidden lg:flex flex-col`}
+        fixed top-0 left-0 z-10 hidden lg:flex flex-col`}
       >
         {/* Header Section with Toggle Button */}
         <div className="flex items-center justify-between p-4 bg-slate-100 text-white">

@@ -1,19 +1,21 @@
 import React, {useState} from 'react'
+import NotificationList from './Workspace/Notification';
+import FileManagement from './Workspace/Document';
 
 const Workspace = () => {
 
   const [activeTab, setActiveTab] = useState("Nozzle Usage");
 
   const tabs = [
-    { name: "Dashboard" },
-    { name: "Document" },
-    { name: "Notification" },
-    { name: "Token" }
+    { name: "Dashboard", content: <NotificationList/>  },
+    { name: "Document", content: <FileManagement/> },
+    { name: "Notification", content: <NotificationList/> },
+    { name: "Token", content: <NotificationList/> }
   ];
 
 
     return (
-      <div className="w-full py-2">
+      <div className="w-full py-1">
         <div className="flex border-b border-gray-200 dark:border-gray-700">
           {tabs.map((tab) => (
             <button
@@ -37,7 +39,7 @@ const Workspace = () => {
               activeTab === tab.name && (
                 <div key={tab.name} className="text-gray-800 dark:text-white">
                   <span className="font-medium">
-                    {/* {tab.content} */}
+                    {tab.content}
                   </span>
                 </div>
               )

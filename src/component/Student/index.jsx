@@ -6,23 +6,27 @@ import Workspace from "../../page/Student/Workspace";
 
 const Layout = () => {
   const [selectedModel, setSelectedModel] = useState("Gemini AI");
-  const [isDashboardVisible, setIsDashboardVisible] = useState(false);
+  const [sidebarIsOpen, setSidebarIsOpen] = useState(true)
 
-  const closeDashboard = () => {
-    setIsDashboardVisible(false);
-    setIsDashboardVisibleProps(false);
-  };
+  const passIsOpen = (isOpen) => {
+    console.log("isOpen:" + isOpen)
+    setSidebarIsOpen(isOpen)
+
+  }
   
   return (
-    <div className="flex">
-      <Sidebar />
-      <div className="flex-1 flex flex-col">
+  <div className="flex">
+    <Sidebar passIsOpen={passIsOpen} />
+      <div className={`flex-1 flex flex-col transition-all duration-300 ease-in-out 
+              ${sidebarIsOpen ? "ml-64" : "ml-14"}`}
+      > 
         <Header selectedModel={selectedModel} setSelectedModel={setSelectedModel} />
-        <main className="p-6 bg-gray-50 flex-1">
+        <main className="p-4 bg-gray-50 flex-1">
           <Outlet context={{ selectedModel, setSelectedModel }} />
-        </main>  
+        </main>
       </div>
-    </div>
+  </div>
+
   )
 };
 
