@@ -15,7 +15,7 @@ const Layout = () => {
   }
   
   return (
-  <div className="flex">
+  <div className="flex bg-white h-screen">
     <Sidebar passIsOpen={passIsOpen} />
       <div className={`flex-1 flex flex-col transition-all duration-300 ease-in-out 
               ${sidebarIsOpen ? "ml-64" : "ml-14"}`}

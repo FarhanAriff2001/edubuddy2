@@ -1,16 +1,18 @@
 import React, {useState} from 'react'
-import NotificationList from './Workspace/Notification';
 import FileManagement from './Workspace/Document';
+import Dashboard from './Workspace/Dashboard';
+import NotificationTab from './Workspace/Notification';
+import TokenUsageTab from './Workspace/TokenUsage';
 
 const Workspace = () => {
 
-  const [activeTab, setActiveTab] = useState("Nozzle Usage");
+  const [activeTab, setActiveTab] = useState("Dashboard");
 
   const tabs = [
-    { name: "Dashboard", content: <NotificationList/>  },
+    { name: "Dashboard", content: <Dashboard/>  },
     { name: "Document", content: <FileManagement/> },
-    { name: "Notification", content: <NotificationList/> },
-    { name: "Token", content: <NotificationList/> }
+    { name: "Notification", content: <NotificationTab/> },
+    // { name: "Token", content: <TokenUsageTab/> }
   ];
 
 
