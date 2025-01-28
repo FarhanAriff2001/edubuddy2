@@ -2,12 +2,28 @@ import React from 'react';
 import { useOutletContext, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import PromptInput from '../../component/Prompts';
+import shuffle from 'lodash/shuffle';
+
+
+const suggestions = [
+  { name: "Help me study.", content: "vocabulary for a college entrace exam" },
+  { name: "Show me a code snippet", content: "of a website's sticky header" },
+  { name: "Give me ideas", content: "for what to do this evening" },
+  { name: "Give me recipe", content: "for dinner" },
+  { name: "Explain to me", content: "the proper way to present my project" },
+  { name: "Teach me", content: "the moral conduct of using AI" },
+]
+
+
 
 const Dashboard = () => {
-  const { selectedModel } = useOutletContext(); // Access the context
+  const selectedModel = useOutletContext(); // Access the context
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+
+  const randomSuggestion = shuffle(suggestions).slice(0, 3);
+  console.log(randomSuggestion);
 
   const mutation = useMutation({
     mutationFn: (text) => {
@@ -64,6 +80,20 @@ const Dashboard = () => {
       <div className="flex justify-center">
         <PromptInput onSubmit={handleSubmit} />
       </div>
+
+      <div className="flex justify-center mt-10">
+        <ul className="flex-1 mt-4">
+          <div className='font-bold text-md'>Suggested</div>
+          {randomSuggestion.map((suggestion, index) => (
+            <li key={index} className="mb-4 p-4 border rounded-lg shadow-sm">
+              <h3 className="font-semibold">{suggestion.name}</h3>
+              <p className="text-gray-600">{suggestion.content}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+
     </div>
   )
 }

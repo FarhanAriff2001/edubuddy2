@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { IoAddSharp } from "react-icons/io5";
 // import './sidebar.css'
 
-const Sidebar = ({passIsOpen }) => {
+const Sidebar = ({ passIsOpen }) => {
   const [isOpen, setIsOpen] = useState(true); // For toggling the sidebar
   const [isMobileOpen, setIsMobileOpen] = useState(false); // For mobile devices
 
@@ -55,46 +55,43 @@ const Sidebar = ({passIsOpen }) => {
 
         {/* Menu Items */}
         <ul className="flex-1 mt-4">
-        <Link className="mb-3" to="/dashboard">
-  <div className="relative w-full">
-    <button className="px-4 py-2 hover:bg-blue-100 flex items-center gap-2 w-full">
-      <MdAdd className="text-xl flex-shrink-0" />
-      <span
-        className={`transition-all duration-200 ease-in-out overflow-hidden whitespace-nowrap ${
-          isOpen ? "opacity-100" : "opacity-0"
-        }`}
-      >
-        New Chat
-      </span>
-    </button>
-  </div>
-        </Link>
-        <Link className="mb-3" to="/workspace">
+          <Link className="mb-3" to="/dashboard">
+            <div className="relative w-full">
+              <button className="px-4 py-2 hover:bg-blue-100 flex items-center gap-2 w-full">
+                <MdAdd className="text-xl flex-shrink-0" />
+                <span
+                  className={`transition-all duration-200 ease-in-out overflow-hidden whitespace-nowrap ${isOpen ? "opacity-100" : "opacity-0"
+                    }`}
+                >
+                  New Chat
+                </span>
+              </button>
+            </div>
+          </Link>
+          <Link className="mb-3" to="/workspace">
+            <div className="relative w-full">
+              <button className="px-4 py-2 hover:bg-blue-100 flex items-center gap-2 w-full">
+                <MdDashboard className="text-xl flex-shrink-0" />
+                <span
+                  className={`transition-all duration-200 ease-in-out overflow-hidden whitespace-nowrap ${isOpen ? "opacity-100" : "opacity-0"
+                    }`}
+                >
+                  Workspace
+                </span>
+              </button>
+            </div>
+          </Link>
           <div className="relative w-full">
             <button className="px-4 py-2 hover:bg-blue-100 flex items-center gap-2 w-full">
-              <MdDashboard className="text-xl flex-shrink-0" />
+              <MdOutlineSearch className="text-xl flex-shrink-0" />
               <span
-                className={`transition-all duration-200 ease-in-out overflow-hidden whitespace-nowrap ${
-                  isOpen ? "opacity-100" : "opacity-0"
-                }`}
+                className={`transition-all duration-200 ease-in-out overflow-hidden whitespace-nowrap ${isOpen ? "opacity-100" : "opacity-0"
+                  }`}
               >
-                Workspace
+                Search
               </span>
             </button>
           </div>
-        </Link>
-        <div className="relative w-full">
-          <button className="px-4 py-2 hover:bg-blue-100 flex items-center gap-2 w-full">
-            <MdOutlineSearch className="text-xl flex-shrink-0" />
-            <span
-              className={`transition-all duration-200 ease-in-out overflow-hidden whitespace-nowrap ${
-                isOpen ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              Search
-            </span>
-          </button>
-        </div>
 
           <hr />
           <div

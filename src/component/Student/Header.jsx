@@ -5,6 +5,7 @@ import { HiOutlineUserCircle } from "react-icons/hi2";
 import { useAuth } from "../../context/JWTContext";
 import { FiChevronDown } from "react-icons/fi"; // Importing the chevron icon
 import { useNavigate } from "react-router-dom";
+import SettingsModal from "../Modals/SettingModal";
 
 const Header = () => {
   const { user } = useAuth();
@@ -12,11 +13,17 @@ const Header = () => {
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  const closeDropdown  = () => {
+  const closeDropdown = () => {
     setIsDropdownOpen(false);
   }
 
@@ -24,7 +31,7 @@ const Header = () => {
     // Close dropdown when clicking outside
     const handleClickOutside = (event) => {
       if (
-        dropdownRef.current && 
+        dropdownRef.current &&
         !dropdownRef.current.contains(event.target)
       ) {
         setIsDropdownOpen(false);
@@ -39,56 +46,57 @@ const Header = () => {
     };
   }, []);
 
-    return (
-        <div className="flex items-center justify-end bg-gray-50 p-4">
-          <div className="relative inline-block text-left" ref={dropdownRef}>
-            <button
-              onClick={toggleDropdown}
-              className="focus:outline-none flex items-center"
-            >
-              {user?.photo ? (
-                <img
-                  src={user.photo}
-                  alt="Profile Photo"
-                  className="w-8 h-8 rounded-full mr-2"
-                />
-              ) : (
-                <HiOutlineUserCircle className="text-2xl" />
-              )}
-            </button>
+  return (
+    <div className="flex items-center justify-end bg-gray-50 p-4">
+      <div className="relative inline-block text-left" ref={dropdownRef}>
+        <button
+          onClick={toggleDropdown}
+          className="focus:outline-none flex items-center"
+        >
+          {user?.photo ? (
+            <img
+              src={user.photo}
+              alt="Profile Photo"
+              className="w-8 h-8 rounded-full mr-2"
+            />
+          ) : (
+            <HiOutlineUserCircle className="text-2xl" />
+          )}
+        </button>
 
-            {isDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-gray-50 border rounded shadow-lg z-10">
-                <button
-                  className="flex items-center w-full text-left px-4 py-2 hover:bg-gray-100"
-                  onClick={() => console.log("Settings Clicked")}
-                >
-                  <FaCogs className="mr-2 text-gray-600" />
-                  <span>Settings</span>
-                </button>
-                <button
-                  className="flex items-center w-full text-left px-4 py-2 hover:bg-gray-100"
-                  onClick={() => {
-                    console.log("Admin Panel Clicked");
-                    closeDropdown();
-                    navigate(`/adminPanel`);
-                  }}
-                >
-                  <MdAdminPanelSettings className="mr-2 text-gray-600" />
-                  Admin Panel
-                </button>
-                <button
-                  className="flex items-center w-full text-left px-4 py-2 hover:bg-gray-100"
-                  onClick={() => console.log("Logout Clicked")}
-                >
-                  <MdLogout className="mr-2 text-gray-600" />
-                  Logout
-                </button>
-              </div>
-            )}
+        {isDropdownOpen && (
+          <div className="absolute right-0 mt-2 w-48 bg-gray-50 border rounded shadow-lg z-10">
+            <button
+              className="flex items-center w-full text-left px-4 py-2 hover:bg-gray-100"
+              onClick={openModal}
+            >
+              <FaCogs className="mr-2 text-gray-600" />
+              <span>Settings</span>
+            </button>
+            {/* <SettingsModal isOpen={isModalOpen} onClose={closeModal} /> */}
+            <button
+              className="flex items-center w-full text-left px-4 py-2 hover:bg-gray-100"
+              onClick={() => {
+                console.log("Admin Panel Clicked");
+                closeDropdown();
+                navigate(`/adminPanel`);
+              }}
+            >
+              <MdAdminPanelSettings className="mr-2 text-gray-600" />
+              Admin Panel
+            </button>
+            <button
+              className="flex items-center w-full text-left px-4 py-2 hover:bg-gray-100"
+              onClick={() => console.log("Logout Clicked")}
+            >
+              <MdLogout className="mr-2 text-gray-600" />
+              Logout
+            </button>
           </div>
-        </div>
-      );
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default Header;
