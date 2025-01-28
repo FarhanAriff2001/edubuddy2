@@ -1,8 +1,8 @@
 import Modal from 'react-modal';
-// import FaTimes from 'react-icons/fa';
+import { FaTimes } from 'react-icons/fa';
 import './settingModal.css'
 
-const SettingsModal = ({ isOpen, onClose }) => {
+const SettingsModal = ({ isOpen, onClose, modalRef }) => {
     return (
         <Modal
             isOpen={isOpen}
@@ -13,16 +13,16 @@ const SettingsModal = ({ isOpen, onClose }) => {
             shouldCloseOnEsc={false} // Disable closing on Escape key
             shouldCloseOnOverlayClick={false} // Disable closing on backdrop click
         >
-            {/* "X" button at the top right corner */}
-            <button
-                className="absolute top-2 right-2 p-2 text-gray-600 hover:text-gray-800"
-                onClick={onClose}
-            >
-                <FaTimes className="w-5 h-5" />
-            </button>
-
-            <h2 className="text-xl font-bold mb-4">Settings</h2>
-            <p>This is the settings modal. Add your settings form or content here.</p>
+            <div ref={modalRef}>
+                {/* "X" button at the top right corner */}
+                <button
+                    className="absolute top-2 right-2 p-2 text-gray-600 hover:text-gray-800"
+                    onClick={onClose}
+                >
+                    <FaTimes className="w-5 h-5" />
+                </button>
+                <h2 className="text-xl font-bold mb-4">Settings</h2>
+            </div>
         </Modal>
     );
 };

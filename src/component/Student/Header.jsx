@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { FaCogs } from "react-icons/fa";
-import { MdLogout, MdAdminPanelSettings } from "react-icons/md";
+import { MdLogout, MdAdminPanelSettings, MdKeyboardArrowLeft } from "react-icons/md";
 import { HiOutlineUserCircle } from "react-icons/hi2";
 import { useAuth } from "../../context/JWTContext";
 import { FiChevronDown } from "react-icons/fi"; // Importing the chevron icon
@@ -11,7 +11,9 @@ const Header = () => {
   const { user } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
+
   const dropdownRef = useRef(null);
+  const modalRef = useRef(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -32,9 +34,11 @@ const Header = () => {
     const handleClickOutside = (event) => {
       if (
         dropdownRef.current &&
-        !dropdownRef.current.contains(event.target)
+        !dropdownRef.current.contains(event.target) &&
+        !modalRef.current.contains(event.target)
       ) {
         setIsDropdownOpen(false);
+        setIsModalOpen(false);
       }
     };
 
@@ -73,7 +77,7 @@ const Header = () => {
               <FaCogs className="mr-2 text-gray-600" />
               <span>Settings</span>
             </button>
-            {/* <SettingsModal isOpen={isModalOpen} onClose={closeModal} /> */}
+            <SettingsModal isOpen={isModalOpen} onClose={closeModal} ref={modalRef} />
             <button
               className="flex items-center w-full text-left px-4 py-2 hover:bg-gray-100"
               onClick={() => {

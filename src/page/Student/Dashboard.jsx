@@ -17,7 +17,7 @@ const suggestions = [
 
 
 const Dashboard = () => {
-  const selectedModel = useOutletContext(); // Access the context
+  const { selectedModel } = useOutletContext(); // Access the context
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
